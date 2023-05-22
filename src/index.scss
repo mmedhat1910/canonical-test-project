@@ -1,0 +1,46 @@
+@import "vanilla-framework";
+@include vanilla;
+
+// color variable primary
+$primary:#A67C9F;
+
+.app{
+  display:flex;
+  align-items: center;
+  height: 100vh;
+}
+.main{
+  margin: 0 auto;
+  width:80%;
+}
+.border-red{
+  border-top: $primary solid 4px;
+}
+.shadow{
+
+  box-shadow: 0 4px 4px 1px rgba(0, 0, 0, 0.1);
+}
+.p-card{
+  
+  &__header{
+    text-transform: uppercase;
+    border-bottom: #aaa dotted 1px;
+    padding-left:  0.5rem;
+    padding-right: 0.5rem;
+  }
+  &__footer{
+    &__category{
+      border-top: #aaa dotted 1px;
+      padding: 0.8rem 0.5rem 0 0.5rem;
+    }
+
+    &__author{
+      padding-bottom: 0.5rem;
+  }
+  }
+  &__content{
+    h4 a{
+        color: #06c;  
+    }
+  }
+}

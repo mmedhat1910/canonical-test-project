@@ -1,35 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react'
+import Card from './Card'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [posts, setPosts] = useState([] as any)
+  useEffect(() => {
+    if (posts.length > 0) return
+    fetch('https://people.canonical.com/~anthonydillon/wp-json/wp/v2/posts.json')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        setPosts(data)
+      })
+  }, [posts])
+
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='app'>
+      <div className='main row'>
+        {posts.map((post: any) => (
+          <div className='col-4' key={post.id}>
+            <Card title={post.title.rendered} author={{
+              name: post._embedded.author.find((a: any) => a.id === post.author).name,
+              link: post._embedded.author.find((a: any) => a.id === post.author).link
+            }} topic={post._embedded['wp:term'].map((arr: any) => {
+              const topic = arr.find((t: any) => t.id === post.topic[0])
+              if (topic) {
+                return topic.name
+              }
+            }).find((name:any)=> name !== undefined)
+            } date={post.date} image={post.featured_media} category={post._embedded['wp:term'].map((arr: any) => {
+              const category = arr.find((t: any) => t.taxonomy === 'category')
+              if (category) {
+                return category.name
+              }
+            }).find((name: any) => name !== undefined)} link={''} />
+          </div>
+        ))
+        }
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
 export default App
