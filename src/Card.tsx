@@ -1,5 +1,4 @@
 import pluralize from 'pluralize'
-import React from 'react'
 type Props = {
   title: string;
   author: { name: string, link: string };

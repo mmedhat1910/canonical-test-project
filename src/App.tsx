@@ -33,7 +33,7 @@ function App() {
               if (category) {
                 return category.name
               }
-            }).find((name: any) => name !== undefined)} link={''} />
+            }).find((name: any) => name !== undefined)} link={post.link} />
           </div>
         ))
         }
